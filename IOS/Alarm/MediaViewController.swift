@@ -41,38 +41,16 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // Return the number of sections.
-        return 4
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        if section == 0 {
-            return 1
-        }
-        else if section == 1 {
-            return 1
-        }
-        else if section == 2 {
-            return 1
-        }
-        else {
-            return numberOfRingtones
-        }
+        return numberOfRingtones
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { if section == 0 {
-            return nil
-        }
-        else if section == 1 {
-            return nil
-        }
-        else if section == 2 {
-            return "SONGS"
-        }
-        else {
-            return "RINGTONS"
-        }
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "RINGTONS"
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -86,33 +64,18 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
             cell = UITableViewCell(
                 style: UITableViewCellStyle.default, reuseIdentifier: Id.musicIdentifier)
         }
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                cell!.textLabel!.text = "Buy More Tones"
-            }
+
+        if indexPath.row == 0 {
+            cell!.textLabel!.text = "bell"
         }
-        else if indexPath.section == 1 {
-            cell!.textLabel!.text = "Vibration"
-            cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        else if indexPath.row == 1 {
+            cell!.textLabel!.text = "tickle"
         }
-        else if indexPath.section == 2 {
-            if indexPath.row == 0 {
-                cell!.textLabel!.text = "Pick a song"
-                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-            }
+        
+        if cell!.textLabel!.text == mediaLabel {
+            cell!.accessoryType = UITableViewCellAccessoryType.checkmark
         }
-        else if indexPath.section == 3 {
-            if indexPath.row == 0 {
-                cell!.textLabel!.text = "bell"
-            }
-            else if indexPath.row == 1 {
-                cell!.textLabel!.text = "tickle"
-            }
-            
-            if cell!.textLabel!.text == mediaLabel {
-                cell!.accessoryType = UITableViewCellAccessoryType.checkmark
-            }
-        }
+        
         
         return cell!
     }
@@ -123,25 +86,20 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
         mediaPicker.delegate = self
         mediaPicker.prompt = "Select any song!"
         mediaPicker.allowsPickingMultipleItems = false
-        if indexPath.section == 2 {
-            if indexPath.row == 0 {
-                self.present(mediaPicker, animated: true, completion: nil)
+       
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = UITableViewCellAccessoryType.checkmark
+        mediaLabel = cell?.textLabel?.text!
+        cell?.setSelected(true, animated: true)
+        cell?.setSelected(false, animated: true)
+        let cells = tableView.visibleCells
+        for c in cells {
+            let section = tableView.indexPath(for: c)?.section
+            if (section == indexPath.section && c != cell) {
+                c.accessoryType = UITableViewCellAccessoryType.none
             }
         }
-        else if indexPath.section == 3 {
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.accessoryType = UITableViewCellAccessoryType.checkmark
-            mediaLabel = cell?.textLabel?.text!
-            cell?.setSelected(true, animated: true)
-            cell?.setSelected(false, animated: true)
-            let cells = tableView.visibleCells
-            for c in cells {
-                let section = tableView.indexPath(for: c)?.section
-                if (section == indexPath.section && c != cell) {
-                    c.accessoryType = UITableViewCellAccessoryType.none
-                }
-            }
-        }
+        
     }
     
     
