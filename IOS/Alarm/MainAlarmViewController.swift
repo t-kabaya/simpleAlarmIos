@@ -86,7 +86,7 @@ class MainAlarmViewController: UITableViewController{
         if (cell == nil) {
             cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: Id.alarmCellIdentifier)
         }
-        //cell text
+        // cell text
         cell!.selectionStyle = .none
         cell!.tag = indexPath.row
         
@@ -98,11 +98,11 @@ class MainAlarmViewController: UITableViewController{
         cell!.textLabel?.attributedText = str
         cell!.detailTextLabel?.text = alarm.label
         
-        //append switch button
+        // append switch button
         let sw = UISwitch(frame: CGRect())
         sw.transform = CGAffineTransform(scaleX: 0.9, y: 0.9);
         
-        //tag is used to indicate which row had been touched
+        // tag is used to indicate which row had been touched
         sw.tag = indexPath.row
         sw.addTarget(self, action: #selector(MainAlarmViewController.switchTapped(_:)), for: UIControlEvents.valueChanged)
         if alarm.enabled {
@@ -117,7 +117,7 @@ class MainAlarmViewController: UITableViewController{
         }
         cell!.accessoryView = sw
         
-        //delete empty seperator line
+        // delete empty seperator line
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         return cell!
     }
@@ -127,7 +127,7 @@ class MainAlarmViewController: UITableViewController{
         alarms[index].enabled = sender.isOn
         if sender.isOn {
             print("switch on")
-            let alarm = alarms[index]
+            var alarm = alarms[index]
             alarmScheduler.setNotificationWithDate(
                 alarm.date,
                 onWeekdaysForNotify: alarm.repeatWeekdays,
@@ -137,8 +137,7 @@ class MainAlarmViewController: UITableViewController{
                 index: index
             )
             tableView.reloadData()
-        }
-        else {
+        } else {
             print("switch off")
             alarmScheduler.reSchedule()
             tableView.reloadData()

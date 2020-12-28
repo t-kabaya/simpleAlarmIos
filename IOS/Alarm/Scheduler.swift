@@ -193,14 +193,14 @@ class Scheduler: AlarmSchedulerDelegate {
     
     func reSchedule() {
         //cancel all and register all is often more convenient
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        syncAlarmModel()
-        for i in 0..<alarmModel.count{
-            let alarm = alarmModel.alarms[i]
-            if alarm.enabled {
-                setNotificationWithDate(alarm.date as Date, onWeekdaysForNotify: alarm.repeatWeekdays, snoozeEnabled: alarm.snoozeEnabled, onSnooze: false, soundName: alarm.mediaLabel, index: i)
-            }
-        }
+//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//        syncAlarmModel()
+//        for i in 0..<alarmModel.count{
+//            let alarm = alarmModel.alarms[i]
+//            if alarm.enabled {
+//                setNotificationWithDate(alarm.date as Date, onWeekdaysForNotify: alarm.repeatWeekdays, snoozeEnabled: alarm.snoozeEnabled, onSnooze: false, soundName: alarm.mediaLabel, index: i)
+//            }
+//        }
     }
     
     // workaround for some situation that alarm model is not setting properly (when app on background or not launched)
