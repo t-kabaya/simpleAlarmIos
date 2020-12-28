@@ -124,6 +124,51 @@ class Scheduler: AlarmSchedulerDelegate {
         let soundName: String
     }
     
+    // 一旦このメソッドを使用したい。
+    public static func setNotifWithDate(date: Date, onWeekdaysForNotify weekdays:[Int], snoozeEnabled:Bool,  onSnooze: Bool, soundName: String, index: Int) {
+        let notificationRequestId = "fooNotificationRequestId"
+
+        let content = UNMutableNotificationContent()
+        content.title = "Wake Up!"
+//        content.sound = soundName + ".mp3"
+        let repeating: Bool = !weekdays.isEmpty
+        content.userInfo = ["snooze" : snoozeEnabled, "index": index, "soundName": soundName, "repeating" : repeating]
+        
+        // TODO: onSnoozeが何を示しているかが分からない。
+        // onSnoozeは、スヌーズをオンにした、ローカル通知がアプリに届いた時のみtrueになる。
+        // weekdaysがない時は、単発のローカル通知なので、
+        let shouldRepeat = weekdays.isEmpty || onSnooze
+//        content.subtitle = "サブタイトル"
+//        content.body = "本文"
+        var triggerDate: DateComponents
+        var trigger: UNCalendarNotificationTrigger
+        if !shouldRepeat {
+            triggerDate =  Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date as Date)
+            trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
+                                                                       repeats: shouldRepeat)
+        } else if onSnooze { // スヌーズがオンのローカル通知を受信した時。
+            // CARE: このif文の中は適当に記述している。 .minuteでは狙った挙動にはならない。
+            triggerDate =  Calendar.current.dateComponents([.minute,], from: date)
+            trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
+                                                     repeats: true)
+        } else { // 毎週の通知
+            triggerDate =  Calendar.current.dateComponents([.weekday,.hour,.minute], from: date) // 毎週x曜日x時x分に繰り返す。
+            trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
+                                                     repeats: true)
+        }
+
+        // ローカル通知を登録します。
+        let request = UNNotificationRequest(identifier: notificationRequestId, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request) { (error) in
+          if let error = error {
+            print("Error: \(error.localizedDescription)")
+          } else {
+            print("Scheduled notification")
+          }
+        }
+    }
+    
+    // 以下のメソッドは、廃止する。
     internal func setNotificationWithDate(_ date: Date, onWeekdaysForNotify weekdays:[Int], snoozeEnabled:Bool,  onSnooze: Bool, soundName: String, index: Int) {
         let notificationRequestId = "fooNotificationRequestId"
 

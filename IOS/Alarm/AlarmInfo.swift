@@ -10,7 +10,7 @@ import Foundation
 
 // AlarmModelからの移行先
 
-struct AlarmInfo {
+struct AlarmInfo: Codable {
     let id: String
     let date: Date
     var enabled: Bool

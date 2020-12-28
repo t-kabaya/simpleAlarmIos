@@ -10,18 +10,51 @@ import Foundation
 
 class AlarmUserDefaults {
     static let ud: UserDefaults = UserDefaults.standard
-    static let persistKey: String = "alarmInfoKey"
+    static let persistKey: String = "alarmInfoKey2"
     
     typealias id = String
     
-    public static func save(alarmInfo: AlarmInfo) -> Void {
-        let alarms: [id : AlarmInfo] = ["1" : alarmInfo]
-        ud.set(alarms, forKey: persistKey)
+    public static func addNewAlarm(alarmModel: AlarmInfo) -> Void {
+        // 新しくalarmを追加する。
+        let alarmStr = encode(alarmModel: alarmModel)
+        var alarmsStrs: [String] = ud.array(forKey: persistKey) as! [String]
+        alarmsStrs.append(alarmStr)
+        
+        save(alarmsStr: alarmsStrs)
+    }
+    
+    public static func getAllAlarms() -> [AlarmInfo] {
+        // alarm一覧を取得する。
+        let alarms: [String] = ud.array(forKey: persistKey) as! [String]
+        
+        return alarms.map {decode(alarmStr: $0)}
+    }
+    
+    public static func deleteAlarmById(id: String) -> Void {
+        // あるidのalarmをデータベースから削除する。
+        let alarms: [AlarmInfo] = getAllAlarms()
+        let deletedAlarms = alarms.filter {$0.id != id}
+                
+        save(alarms: deletedAlarms)
+    }
+    
+    private static func save (alarms: [AlarmInfo]) {
+        let alarmsStr = alarms.map { encode(alarmModel: $0)}
+        ud.set(alarmsStr, forKey: persistKey)
         ud.synchronize()
     }
     
-    public static func getAlarms() -> [id : AlarmInfo] {
-        let alarms: [id : AlarmInfo] = ud.dictionary(forKey: persistKey) as! [id : AlarmInfo]
-        return alarms
+    private static func save(alarmsStr: [String]) {
+        ud.set(alarmsStr, forKey: persistKey)
+        ud.synchronize()
+    }
+    
+    private static func encode(alarmModel: AlarmInfo) -> String {
+        let alarmData: Data = try! JSONEncoder().encode(alarmModel)
+        return String(data: alarmData, encoding: .utf8)!
+    }
+    
+    private static func decode(alarmStr: String) -> AlarmInfo {
+        return try! JSONDecoder().decode(AlarmInfo.self, from: alarmStr.data(using: .utf8)!)
     }
 }
