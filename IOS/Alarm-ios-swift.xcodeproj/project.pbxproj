@@ -29,6 +29,9 @@
 		9EED78941AA1E51700961BC2 /* AlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EED78931AA1E51700961BC2 /* AlarmModel.swift */; };
 		9EED789A1AA36C7900961BC2 /* AlarmAddEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */; };
 		9EEEC58C1BC641BF00459CF7 /* MainAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEEC58B1BC641BF00459CF7 /* MainAlarmViewController.swift */; };
+		F19EC351259A1D6600A7025D /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19EC350259A1D6600A7025D /* DateUtils.swift */; };
+		F1AB0CCD2598C47800CF4908 /* AlarmUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AB0CCC2598C47800CF4908 /* AlarmUserDefaults.swift */; };
+		F1AB0CD12599744200CF4908 /* AlarmInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AB0CD02599744200CF4908 /* AlarmInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +71,9 @@
 		9EED78931AA1E51700961BC2 /* AlarmModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmModel.swift; sourceTree = "<group>"; };
 		9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmAddEditViewController.swift; sourceTree = "<group>"; };
 		9EEEC58B1BC641BF00459CF7 /* MainAlarmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAlarmViewController.swift; sourceTree = "<group>"; };
+		F19EC350259A1D6600A7025D /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
+		F1AB0CCC2598C47800CF4908 /* AlarmUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmUserDefaults.swift; sourceTree = "<group>"; };
+		F1AB0CD02599744200CF4908 /* AlarmInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +119,7 @@
 			children = (
 				9EED78931AA1E51700961BC2 /* AlarmModel.swift */,
 				7773A0F91E4610B700811A1D /* SegueInfo.swift */,
+				F1AB0CD02599744200CF4908 /* AlarmInfo.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -169,6 +176,8 @@
 		9EED786E1AA0F03F00961BC2 /* Alarm */ = {
 			isa = PBXGroup;
 			children = (
+				F19EC34F259A1D5500A7025D /* Utils */,
+				F1AB0CCB2598C45700CF4908 /* DB */,
 				770405701EA09FB2005F9379 /* Extension */,
 				77A857131E42FDF200971367 /* App */,
 				77A857121E42FDAD00971367 /* Controller */,
@@ -206,6 +215,22 @@
 				9EED78861AA0F03F00961BC2 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F19EC34F259A1D5500A7025D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F19EC350259A1D6600A7025D /* DateUtils.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		F1AB0CCB2598C45700CF4908 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				F1AB0CCC2598C47800CF4908 /* AlarmUserDefaults.swift */,
+			);
+			name = DB;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,6 +348,7 @@
 			files = (
 				9EED789A1AA36C7900961BC2 /* AlarmAddEditViewController.swift in Sources */,
 				7773A0F81E43276700811A1D /* Identifier.swift in Sources */,
+				F19EC351259A1D6600A7025D /* DateUtils.swift in Sources */,
 				9E1F30731C49128000C66F79 /* Scheduler.swift in Sources */,
 				9E16062C1C62358F009B2407 /* MediaViewController.swift in Sources */,
 				9EED78721AA0F03F00961BC2 /* AppDelegate.swift in Sources */,
@@ -334,6 +360,8 @@
 				9EEEC58C1BC641BF00459CF7 /* MainAlarmViewController.swift in Sources */,
 				7732E6131E38A50200C9D9A2 /* Persistable.swift in Sources */,
 				7701B7B31E99414800908B6C /* UIWindow+Extension.swift in Sources */,
+				F1AB0CD12599744200CF4908 /* AlarmInfo.swift in Sources */,
+				F1AB0CCD2598C47800CF4908 /* AlarmUserDefaults.swift in Sources */,
 				77A8570F1E41A04600971367 /* AlarmSchedulerDelegate.swift in Sources */,
 				77570F6B1E3EEA75005E2923 /* PropertyReflectable.swift in Sources */,
 				9E9BEE071BCF8FF8000CF364 /* WeekdaysViewController.swift in Sources */,
