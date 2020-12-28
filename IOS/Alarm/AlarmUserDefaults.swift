@@ -17,15 +17,21 @@ class AlarmUserDefaults {
     public static func addNewAlarm(alarmModel: AlarmInfo) -> Void {
         // 新しくalarmを追加する。
         let alarmStr = encode(alarmModel: alarmModel)
-        var alarmsStrs: [String] = ud.array(forKey: persistKey) as! [String]
-        alarmsStrs.append(alarmStr)
+        let alarmsStrs: [String]? = ud.array(forKey: persistKey) as? [String]
         
-        save(alarmsStr: alarmsStrs)
+        if var _alarmStrs = alarmsStrs {
+            _alarmStrs.append(alarmStr)
+            save(alarmsStr: _alarmStrs)
+        } else {
+            save(alarmsStr: [alarmStr])
+        }
+        let allAlarms = AlarmUserDefaults.getAllAlarms()
+        print("kaba allAlarms = ", allAlarms)
     }
     
     public static func getAllAlarms() -> [AlarmInfo] {
         // alarm一覧を取得する。
-        let alarms: [String] = ud.array(forKey: persistKey) as! [String]
+        guard let alarms: [String] = ud.array(forKey: persistKey) as? [String] else {return []}
         
         return alarms.map {decode(alarmStr: $0)}
     }

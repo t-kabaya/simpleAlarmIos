@@ -19,17 +19,10 @@ class MainAlarmViewController: UITableViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        alarms = [AlarmInfo(
-            id: "",
-            date: Date(),
-            enabled: true,
-            snoozeEnabled: true,
-            repeatWeekdays: [1],
-            mediaID: "",
-            mediaLabel: "",
-            label: "",
-            onSnooze: true
-        )]
+        
+        print("kaba viewWillAppear")
+        
+        alarms = AlarmUserDefaults.getAllAlarms()
         tableView.reloadData()
         //dynamically append the edit button
         if alarms.count != 0 {

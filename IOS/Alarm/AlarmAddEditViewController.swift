@@ -26,22 +26,21 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func saveEditAlarm(_ sender: AnyObject) {
         let date = Scheduler.correctSecondComponent(date: datePicker.date)
-        let index = segueInfo.curCellIndex
-        var tempAlarm = Alarm()
-        tempAlarm.date = date
-        tempAlarm.label = segueInfo.label
-        tempAlarm.enabled = true
-        tempAlarm.mediaLabel = segueInfo.mediaLabel
-        tempAlarm.mediaID = segueInfo.mediaID
-        tempAlarm.snoozeEnabled = snoozeEnabled
-        tempAlarm.repeatWeekdays = segueInfo.repeatWeekdays
-        tempAlarm.uuid = UUID().uuidString
-        tempAlarm.onSnooze = false
-        if segueInfo.isEditMode {
-            alarmModel.alarms[index] = tempAlarm
-        } else {
-            alarmModel.alarms.append(tempAlarm)
-        }
+        
+        let alarm = AlarmInfo(
+            id: UUID().uuidString,
+            date: date,
+            enabled: true,
+            snoozeEnabled: segueInfo.snoozeEnabled,
+            repeatWeekdays: segueInfo.repeatWeekdays,
+            mediaID: segueInfo.mediaID,
+            mediaLabel: segueInfo.mediaLabel,
+            label: segueInfo.label,
+            onSnooze: false
+        )
+        
+        AlarmUserDefaults.addNewAlarm(alarmModel: alarm)
+        
         self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
     }
     
