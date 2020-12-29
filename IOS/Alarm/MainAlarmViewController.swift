@@ -178,6 +178,9 @@ class MainAlarmViewController: UITableViewController{
     
     @IBAction func unwindFromAddEditAlarmView(_ segue: UIStoryboardSegue) {
         isEditing = false
+        // 編集を完了した時に、再度読み込み
+        alarms = AlarmUserDefaults.getAllAlarms()
+        tableView.reloadData()
     }
     
     public func changeSwitchButtonState(index: Int) {
