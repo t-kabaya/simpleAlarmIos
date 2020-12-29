@@ -40,6 +40,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         )
         
         AlarmUserDefaults.addNewAlarm(alarmModel: alarm)
+        Scheduler.setNotifWithDate(alarm: alarm)
         
         self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
     }

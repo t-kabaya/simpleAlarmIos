@@ -115,37 +115,39 @@ class Scheduler: AlarmSchedulerDelegate {
         return d
     }
     
-    struct AlarmInfo {
-        let id: Int
-        let date: Date
-        let weekdays: [Int] // 1 = 日曜日、2 = 月曜日
-        let snoozeEnabled: Bool
-        // let onSnooze: Bool // snoozeがonのローカル通知が
-        let soundName: String
-    }
-    
     // 一旦このメソッドを使用したい。
-    public static func setNotifWithDate(date: Date, onWeekdaysForNotify weekdays:[Int], snoozeEnabled:Bool,  onSnooze: Bool, soundName: String, index: Int) {
-        let notificationRequestId = "fooNotificationRequestId"
+    public static func setNotifWithDate(alarm: AlarmInfo) {
+        let date: Date = alarm.date
+        let weekdays: [Int] = alarm.repeatWeekdays
+        let snoozeEnabled: Bool = alarm.snoozeEnabled
+        let onSnooze: Bool = alarm.snoozeEnabled
+//        let soundName: String = alarm.soundName
+//        let soundName: = UNNotificationSound.init(named: (UNNotificationSoundName("bell.mp3"))
+        
+        let notificationRequestId = "fooNotificationRequestId2"
 
         let content = UNMutableNotificationContent()
         content.title = "Wake Up!"
 //        content.sound = soundName + ".mp3"
         let repeating: Bool = !weekdays.isEmpty
-        content.userInfo = ["snooze" : snoozeEnabled, "index": index, "soundName": soundName, "repeating" : repeating]
+//        content.userInfo = ["snooze" : snoozeEnabled, "index": index, "soundName": soundName, "repeating" : repeating]
         
         // TODO: onSnoozeが何を示しているかが分からない。
         // onSnoozeは、スヌーズをオンにした、ローカル通知がアプリに届いた時のみtrueになる。
         // weekdaysがない時は、単発のローカル通知なので、
-        let shouldRepeat = weekdays.isEmpty || onSnooze
+        let shouldRepeat = !weekdays.isEmpty || onSnooze
 //        content.subtitle = "サブタイトル"
 //        content.body = "本文"
+        
         var triggerDate: DateComponents
         var trigger: UNCalendarNotificationTrigger
-        if !shouldRepeat {
-            triggerDate =  Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: date as Date)
-            trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
-                                                                       repeats: shouldRepeat)
+        if !shouldRepeat { // 一回のみ
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: date)
+            let minute = calendar.component(.minute, from: date)
+
+            let triggerDate = DateComponents(hour: hour, minute: minute)
+            trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: shouldRepeat)
         } else if onSnooze { // スヌーズがオンのローカル通知を受信した時。
             // CARE: このif文の中は適当に記述している。 .minuteでは狙った挙動にはならない。
             triggerDate =  Calendar.current.dateComponents([.minute,], from: date)
@@ -160,7 +162,7 @@ class Scheduler: AlarmSchedulerDelegate {
         // ローカル通知を登録します。
         let request = UNNotificationRequest(identifier: notificationRequestId, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { (error) in
-          if let error = error {
+        if let error = error {
             print("Error: \(error.localizedDescription)")
           } else {
             print("Scheduled notification")
