@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     var alarmModel: Alarms = Alarms()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        requestNotificationAuthorization()
+        
         var error: NSError?
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
@@ -191,5 +193,18 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+    }
+}
+
+func requestNotificationAuthorization() {
+    let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+    UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
+      if let error = error {
+        print("Error: \(error.localizedDescription)")
+      } else if granted {
+        print("Push notification permission is granted")
+      } else {
+        print("Push notification permission is rejected")
+      }
     }
 }
