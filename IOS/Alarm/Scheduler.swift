@@ -128,7 +128,7 @@ class Scheduler: AlarmSchedulerDelegate {
 
         let content = UNMutableNotificationContent()
         content.title = "Wake Up!"
-//        content.sound = soundName + ".mp3"
+        content.sound = UNNotificationSound(named: "\(alarm.soundName).mp3")
         let repeating: Bool = !weekdays.isEmpty
 //        content.userInfo = ["snooze" : snoozeEnabled, "index": index, "soundName": soundName, "repeating" : repeating]
         
@@ -149,7 +149,7 @@ class Scheduler: AlarmSchedulerDelegate {
             let triggerDate = DateComponents(hour: hour, minute: minute)
             trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: shouldRepeat)
         } else if onSnooze { // スヌーズがオンのローカル通知を受信した時。
-            // CARE: このif文の中は適当に記述している。 .minuteでは狙った挙動にはならない。
+            // CARE: このif文の中は適当に記述している。 .minucteでは狙った挙動にはならない。
             triggerDate =  Calendar.current.dateComponents([.minute,], from: date)
             trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,
                                                      repeats: true)
@@ -177,7 +177,7 @@ class Scheduler: AlarmSchedulerDelegate {
         // Create the content of a notification
         let content = UNMutableNotificationContent()
         content.title = "Wake Up!"
-//        content.sound = soundName + ".mp3"
+        content.sound = UNNotificationSound(named: "\(soundName).mp3")
         let repeating: Bool = !weekdays.isEmpty
         content.userInfo = ["snooze" : snoozeEnabled, "index": index, "soundName": soundName, "repeating" : repeating]
         
