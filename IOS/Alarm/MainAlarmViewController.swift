@@ -20,10 +20,7 @@ class MainAlarmViewController: UITableViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         tableView.reloadData()
-        //dynamically append the edit button
-        self.navigationItem.leftBarButtonItem = alarms.count != 0 ? editButtonItem : nil
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,18 +49,17 @@ class MainAlarmViewController: UITableViewController{
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // 編集ボタンを押した時の遷移
-            performSegue(withIdentifier: Id.editSegueIdentifier,
-                        sender: SegueInfo(curCellIndex: indexPath.row,
-                        isEditMode: true,
-                        label: alarms[indexPath.row].label,
-                        mediaLabel: alarms[indexPath.row].mediaLabel,
-                        mediaID: alarms[indexPath.row].mediaID,
-                        repeatWeekdays: alarms[indexPath.row].repeatWeekdays,
-                        enabled: alarms[indexPath.row].enabled,
-                        snoozeEnabled: alarms[indexPath.row].snoozeEnabled,
-                        alarmUuid: alarms[indexPath.row].id)
-            )
-        
+        performSegue(withIdentifier: Id.editSegueIdentifier,
+                    sender: SegueInfo(curCellIndex: indexPath.row,
+                    isEditMode: true,
+                    label: alarms[indexPath.row].label,
+                    mediaLabel: alarms[indexPath.row].mediaLabel,
+                    mediaID: alarms[indexPath.row].mediaID,
+                    repeatWeekdays: alarms[indexPath.row].repeatWeekdays,
+                    enabled: alarms[indexPath.row].enabled,
+                    snoozeEnabled: alarms[indexPath.row].snoozeEnabled,
+                    alarmUuid: alarms[indexPath.row].id)
+        )
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -105,6 +101,29 @@ class MainAlarmViewController: UITableViewController{
         // delete empty seperator line
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         return cell!
+    }
+    
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let index = indexPath.row
+            alarms.remove(at: index)
+            let cells = tableView.visibleCells
+            for cell in cells {
+                let sw = cell.accessoryView as! UISwitch
+                //adjust saved index when row deleted
+                if sw.tag > index {
+                    sw.tag -= 1
+                }
+            }
+            if alarms.count == 0 {
+                self.navigationItem.leftBarButtonItem = nil
+            }
+            
+            // Delete the row from the data source
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            alarmScheduler.reSchedule()
+        }
     }
     
     @IBAction func switchTapped(_ sender: UISwitch) {
@@ -156,29 +175,6 @@ class MainAlarmViewController: UITableViewController{
         alarms = newAlarms
         tableView.reloadData()
   
-    }
-
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let index = indexPath.row
-            alarms.remove(at: index)
-            let cells = tableView.visibleCells
-            for cell in cells {
-                let sw = cell.accessoryView as! UISwitch
-                //adjust saved index when row deleted
-                if sw.tag > index {
-                    sw.tag -= 1
-                }
-            }
-            if alarms.count == 0 {
-                self.navigationItem.leftBarButtonItem = nil
-            }
-            
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            alarmScheduler.reSchedule()
-        }   
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -234,6 +230,4 @@ class MainAlarmViewController: UITableViewController{
             }
         }
     }
-
 }
-
