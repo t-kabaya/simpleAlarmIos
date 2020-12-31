@@ -60,7 +60,8 @@ class MainAlarmViewController: UITableViewController{
                         mediaID: alarms[indexPath.row].mediaID,
                         repeatWeekdays: alarms[indexPath.row].repeatWeekdays,
                         enabled: alarms[indexPath.row].enabled,
-                        snoozeEnabled: alarms[indexPath.row].snoozeEnabled)
+                        snoozeEnabled: alarms[indexPath.row].snoozeEnabled,
+                        alarmUuid: alarms[indexPath.row].id)
             )
         
     }
@@ -188,7 +189,7 @@ class MainAlarmViewController: UITableViewController{
         let addEditController = dist.topViewController as! AlarmAddEditViewController
         if segue.identifier == Id.addSegueIdentifier {
             addEditController.navigationItem.title = "Add Alarm"
-            addEditController.segueInfo = SegueInfo(curCellIndex: alarms.count, isEditMode: false, label: "Alarm", mediaLabel: "bell", mediaID: "", repeatWeekdays: [], enabled: false, snoozeEnabled: false)
+            addEditController.segueInfo = SegueInfo(curCellIndex: alarms.count, isEditMode: false, label: "Alarm", mediaLabel: "bell", mediaID: "", repeatWeekdays: [], enabled: false, snoozeEnabled: false, alarmUuid: nil)
         } else if segue.identifier == Id.editSegueIdentifier {
             addEditController.navigationItem.title = "Edit Alarm"
             addEditController.segueInfo = sender as! SegueInfo

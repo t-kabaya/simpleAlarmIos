@@ -36,12 +36,20 @@ class AlarmUserDefaults {
         return alarms.map { decode(alarmStr: $0) }
     }
     
-    public static func deleteAlarmById(id: String) -> Void {
-        // あるidのalarmをデータベースから削除する。
-        let alarms: [AlarmInfo] = getAllAlarms()
-        let deletedAlarms = alarms.filter {$0.id != id}
-                
-        saveAllAlarms(alarms: deletedAlarms)
+    public static func deleteAlarmById(id: String?) -> Void {
+        if let alarmId: String = id {
+            // あるidのalarmをデータベースから削除する。
+            let alarms: [AlarmInfo] = getAllAlarms()
+            let deletedAlarms = alarms.filter {$0.id != alarmId}
+                    
+            saveAllAlarms(alarms: deletedAlarms)
+        }
+    }
+    
+    public static func deleteAlarmById(alarmId: String?) {
+        let alarms = AlarmUserDefaults.getAllAlarms()
+        let deletedAlarms = alarms.filter {$0.id != alarmId}
+        AlarmUserDefaults.saveAllAlarms(alarms: deletedAlarms)
     }
     
     public static func saveAllAlarms(alarms: [AlarmInfo]) {

@@ -128,8 +128,15 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                 break
             }
         } else if indexPath.section == 1 { // alarmを削除する
-            //delete alarm
-            let row = indexPath.row
+            AlarmUserDefaults.deleteAlarmById(id: segueInfo.alarmUuid)
+            
+            // 全ての登録をキャンセルする。
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            let alarms = AlarmUserDefaults.getAllAlarms()
+            // 全てのプッシュ通知の登録を行う。
+            for alarm in alarms {
+                Scheduler.setNotifWithDate(alarm: alarm)
+            }
             
             performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
         }
