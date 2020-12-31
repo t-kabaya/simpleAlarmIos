@@ -12,7 +12,11 @@ import UIKit
 class AlarmLogic {
     public static func deleteAlarmById(alarmId: String?) {
         AlarmUserDefaults.deleteAlarmById(id: alarmId)
-        
+        refrectChange()
+    }
+    
+    public static func refrectChange() {
+        // userDefaultsへの変更を、ローカル通知に反映する。
         // 全ての登録をキャンセルする。
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         let alarms = AlarmUserDefaults.getAllAlarms()

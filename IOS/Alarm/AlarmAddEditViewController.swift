@@ -23,7 +23,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     @IBAction func saveEditAlarm(_ sender: AnyObject) {
-        let isNewAlarm = segueInfo.alarmUuid == nil
+        let isNewAlarm = segueInfo.alarm == nil
         if isNewAlarm {
             let date = Scheduler.correctSecondComponent(date: datePicker.date)
             
@@ -46,7 +46,42 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
         } else {
             let alarms: [AlarmInfo] = AlarmUserDefaults.getAllAlarms()
-            let alarmId = segueInfo.alarmUuid
+            var newAlarms: [AlarmInfo] = []
+            // REFACTOR map関数で書き換え
+            var indexforLoop = 0
+            for value in alarms {
+                if value.id == segueInfo.alarm?.id {
+                    newAlarms.append(AlarmInfo(
+                        id: value.id,
+                        date: value.date,
+                        enabled: value.enabled,
+                        snoozeEnabled: value.snoozeEnabled,
+                        repeatWeekdays: value.repeatWeekdays,
+                        mediaID: value.mediaID,
+                        mediaLabel: value.mediaLabel,
+                        label: value.label,
+                        onSnooze: value.onSnooze,
+                        soundName: value.soundName
+                    ))
+                } else {
+                    newAlarms.append(AlarmInfo(
+                        id: value.id,
+                        date: value.date,
+                        enabled: value.enabled,
+                        snoozeEnabled: value.snoozeEnabled,
+                        repeatWeekdays: value.repeatWeekdays,
+                        mediaID: value.mediaID,
+                        mediaLabel: value.mediaLabel,
+                        label: value.label,
+                        onSnooze: value.onSnooze,
+                        soundName: value.soundName
+                    ))
+                }
+                indexforLoop += 1
+            }
+            
+            AlarmUserDefaults.saveAllAlarms(alarms: newAlarms)
+            AlarmLogic.refrectChange()
         }
     }
     
