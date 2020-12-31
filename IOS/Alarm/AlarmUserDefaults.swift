@@ -21,9 +21,9 @@ class AlarmUserDefaults {
         
         if var _alarmStrs = alarmsStrs {
             _alarmStrs.append(alarmStr)
-            save(alarmsStr: _alarmStrs)
+            saveAllAlarms(alarmsStr: _alarmStrs)
         } else {
-            save(alarmsStr: [alarmStr])
+            saveAllAlarms(alarmsStr: [alarmStr])
         }
         let allAlarms = AlarmUserDefaults.getAllAlarms()
         print("kaba allAlarms = ", allAlarms)
@@ -33,7 +33,7 @@ class AlarmUserDefaults {
         // alarm一覧を取得する。
         guard let alarms: [String] = ud.array(forKey: persistKey) as? [String] else {return []}
         
-        return alarms.map {decode(alarmStr: $0)}
+        return alarms.map { decode(alarmStr: $0) }
     }
     
     public static func deleteAlarmById(id: String) -> Void {
@@ -41,16 +41,15 @@ class AlarmUserDefaults {
         let alarms: [AlarmInfo] = getAllAlarms()
         let deletedAlarms = alarms.filter {$0.id != id}
                 
-        save(alarms: deletedAlarms)
+        saveAllAlarms(alarms: deletedAlarms)
     }
     
-    public static func save(alarms: [AlarmInfo]) {
-        let alarmsStr = alarms.map { encode(alarmModel: $0)}
-        ud.set(alarmsStr, forKey: persistKey)
-        ud.synchronize()
+    public static func saveAllAlarms(alarms: [AlarmInfo]) {
+        let alarmsStr = alarms.map { encode(alarmModel: $0) }
+        saveAllAlarms(alarmsStr: alarmsStr)
     }
     
-    private static func save(alarmsStr: [String]) {
+    private static func saveAllAlarms(alarmsStr: [String]) {
         ud.set(alarmsStr, forKey: persistKey)
         ud.synchronize()
     }

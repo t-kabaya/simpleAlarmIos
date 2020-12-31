@@ -158,7 +158,7 @@ class MainAlarmViewController: UITableViewController{
             Scheduler.setNotifWithDate(alarm: alarm)
         }
         // データベースに保存する。
-        AlarmUserDefaults.save(alarms: newAlarms)
+        AlarmUserDefaults.saveAllAlarms(alarms: newAlarms)
         
         // tableViewを更新する。
         alarms = newAlarms
