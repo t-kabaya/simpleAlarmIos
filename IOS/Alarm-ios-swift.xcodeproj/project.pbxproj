@@ -30,6 +30,7 @@
 		9EED789A1AA36C7900961BC2 /* AlarmAddEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */; };
 		9EEEC58C1BC641BF00459CF7 /* MainAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEEC58B1BC641BF00459CF7 /* MainAlarmViewController.swift */; };
 		F19EC351259A1D6600A7025D /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19EC350259A1D6600A7025D /* DateUtils.swift */; };
+		F19EC367259D64AC00A7025D /* foo.png in Resources */ = {isa = PBXBuildFile; fileRef = F19EC366259D64AC00A7025D /* foo.png */; };
 		F1AB0CCD2598C47800CF4908 /* AlarmUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AB0CCC2598C47800CF4908 /* AlarmUserDefaults.swift */; };
 		F1AB0CD12599744200CF4908 /* AlarmInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AB0CD02599744200CF4908 /* AlarmInfo.swift */; };
 /* End PBXBuildFile section */
@@ -72,6 +73,7 @@
 		9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmAddEditViewController.swift; sourceTree = "<group>"; };
 		9EEEC58B1BC641BF00459CF7 /* MainAlarmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAlarmViewController.swift; sourceTree = "<group>"; };
 		F19EC350259A1D6600A7025D /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
+		F19EC366259D64AC00A7025D /* foo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = foo.png; sourceTree = "<group>"; };
 		F1AB0CCC2598C47800CF4908 /* AlarmUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmUserDefaults.swift; sourceTree = "<group>"; };
 		F1AB0CD02599744200CF4908 /* AlarmInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,6 +178,7 @@
 		9EED786E1AA0F03F00961BC2 /* Alarm */ = {
 			isa = PBXGroup;
 			children = (
+				F19EC365259D649300A7025D /* Image */,
 				F19EC34F259A1D5500A7025D /* Utils */,
 				F1AB0CCB2598C45700CF4908 /* DB */,
 				770405701EA09FB2005F9379 /* Extension */,
@@ -223,6 +226,14 @@
 				F19EC350259A1D6600A7025D /* DateUtils.swift */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		F19EC365259D649300A7025D /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				F19EC366259D64AC00A7025D /* foo.png */,
+			);
+			name = Image;
 			sourceTree = "<group>";
 		};
 		F1AB0CCB2598C45700CF4908 /* DB */ = {
@@ -328,6 +339,7 @@
 				9EED78771AA0F03F00961BC2 /* Main.storyboard in Resources */,
 				9E3B062F1BB8347000453456 /* bell.mp3 in Resources */,
 				9EED787C1AA0F03F00961BC2 /* LaunchScreen.xib in Resources */,
+				F19EC367259D64AC00A7025D /* foo.png in Resources */,
 				9EED78791AA0F03F00961BC2 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

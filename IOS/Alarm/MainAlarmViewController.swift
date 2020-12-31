@@ -121,14 +121,51 @@ class MainAlarmViewController: UITableViewController{
         if sender.isOn {
             print("switch on")
             var alarm = alarms[index]
-            alarmScheduler.setNotificationWithDate(
-                alarm.date,
-                onWeekdaysForNotify: alarm.repeatWeekdays,
-                snoozeEnabled: alarm.snoozeEnabled,
-                onSnooze: false,
-                soundName: alarm.mediaLabel,
-                index: index
-            )
+            Scheduler.setNotifWithDate(alarm: alarm)
+            
+            var newAlarms: [AlarmInfo] = []
+            var indexforLoop = 0
+            for value in alarms {
+                indexforLoop += 1
+                if indexforLoop == index {
+                    newAlarms.append(AlarmInfo(
+                        id: value.id,
+                        date: value.date,
+                        enabled: true,
+                        snoozeEnabled: value.snoozeEnabled,
+                        repeatWeekdays: value.repeatWeekdays,
+                        mediaID: value.mediaID,
+                        mediaLabel: value.mediaLabel,
+                        label: value.label,
+                        onSnooze: value.onSnooze,
+                        soundName: value.soundName
+                    ))
+                } else {
+                    newAlarms.append(AlarmInfo(
+                        id: value.id,
+                        date: value.date,
+                        enabled: false,
+                        snoozeEnabled: value.snoozeEnabled,
+                        repeatWeekdays: value.repeatWeekdays,
+                        mediaID: value.mediaID,
+                        mediaLabel: value.mediaLabel,
+                        label: value.label,
+                        onSnooze: value.onSnooze,
+                        soundName: value.soundName
+                    ))
+                }
+            }
+            
+            // 以下、保存処理と、schedularのキャンセル処理を書く。
+            
+//            alarmScheduler.setNotificationWithDate(
+//                alarm.date,
+//                onWeekdaysForNotify: alarm.repeatWeekdays,
+//                snoozeEnabled: alarm.snoozeEnabled,
+//                onSnooze: false,
+//                soundName: alarm.mediaLabel,
+//                index: index
+//            )
             tableView.reloadData()
         } else {
             print("switch off")

@@ -63,13 +63,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         
         playSound(soundName)
         //schedule notification for snooze
-        if isSnooze {
-            let snoozeOption = UIAlertAction(title: "Snooze", style: .default) {
-                (action:UIAlertAction)->Void in self.audioPlayer?.stop()
-                self.alarmScheduler.setNotificationForSnooze(snoozeMinute: 9, soundName: soundName, index: index)
-            }
-            storageController.addAction(snoozeOption)
-        }
+//        if isSnooze {
+//            let snoozeOption = UIAlertAction(title: "Snooze", style: .default) {
+//                (action:UIAlertAction)->Void in self.audioPlayer?.stop()
+//                self.alarmScheduler.setNotificationForSnooze(snoozeMinute: 9, soundName: soundName, index: index)
+//            }
+//            storageController.addAction(snoozeOption)
+//        }
         let stopOption = UIAlertAction(title: "OK", style: .default) {
             (action:UIAlertAction)->Void in self.audioPlayer?.stop()
             AudioServicesRemoveSystemSoundCompletion(kSystemSoundID_Vibrate)
@@ -98,10 +98,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         }
         self.alarmModel = Alarms()
         self.alarmModel.alarms[index].onSnooze = false
-        if identifier == Id.snoozeIdentifier {
-            alarmScheduler.setNotificationForSnooze(snoozeMinute: 9, soundName: soundName, index: index)
-            self.alarmModel.alarms[index].onSnooze = true
-        }
+//        if identifier == Id.snoozeIdentifier {
+//            alarmScheduler.setNotificationForSnooze(snoozeMinute: 9, soundName: soundName, index: index)
+//            self.alarmModel.alarms[index].onSnooze = true
+//        }
         completionHandler()
     }
     
