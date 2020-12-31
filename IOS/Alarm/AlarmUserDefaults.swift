@@ -44,7 +44,7 @@ class AlarmUserDefaults {
         save(alarms: deletedAlarms)
     }
     
-    private static func save (alarms: [AlarmInfo]) {
+    public static func save(alarms: [AlarmInfo]) {
         let alarmsStr = alarms.map { encode(alarmModel: $0)}
         ud.set(alarmsStr, forKey: persistKey)
         ud.synchronize()

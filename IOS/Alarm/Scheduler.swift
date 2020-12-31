@@ -117,6 +117,8 @@ class Scheduler: AlarmSchedulerDelegate {
     
     // 一旦このメソッドを使用したい。
     public static func setNotifWithDate(alarm: AlarmInfo) -> Void {
+        if !alarm.enabled { return }
+        
         let date: Date = alarm.date
         let weekdays: [Int] = alarm.repeatWeekdays
         let snoozeEnabled: Bool = alarm.snoozeEnabled

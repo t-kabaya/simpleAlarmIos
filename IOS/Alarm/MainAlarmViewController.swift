@@ -117,61 +117,53 @@ class MainAlarmViewController: UITableViewController{
     
     @IBAction func switchTapped(_ sender: UISwitch) {
         let index = sender.tag
-        alarms[index].enabled = sender.isOn
-        if sender.isOn {
-            print("switch on")
-            var alarm = alarms[index]
-            Scheduler.setNotifWithDate(alarm: alarm)
-            
-            var newAlarms: [AlarmInfo] = []
-            var indexforLoop = 0
-            for value in alarms {
-                indexforLoop += 1
-                if indexforLoop == index {
-                    newAlarms.append(AlarmInfo(
-                        id: value.id,
-                        date: value.date,
-                        enabled: true,
-                        snoozeEnabled: value.snoozeEnabled,
-                        repeatWeekdays: value.repeatWeekdays,
-                        mediaID: value.mediaID,
-                        mediaLabel: value.mediaLabel,
-                        label: value.label,
-                        onSnooze: value.onSnooze,
-                        soundName: value.soundName
-                    ))
-                } else {
-                    newAlarms.append(AlarmInfo(
-                        id: value.id,
-                        date: value.date,
-                        enabled: false,
-                        snoozeEnabled: value.snoozeEnabled,
-                        repeatWeekdays: value.repeatWeekdays,
-                        mediaID: value.mediaID,
-                        mediaLabel: value.mediaLabel,
-                        label: value.label,
-                        onSnooze: value.onSnooze,
-                        soundName: value.soundName
-                    ))
-                }
+        var newAlarms: [AlarmInfo] = []
+        // REFACTOR map関数で書き換え
+        var indexforLoop = 0
+        for value in alarms {
+            if indexforLoop == index {
+                newAlarms.append(AlarmInfo(
+                    id: value.id,
+                    date: value.date,
+                    enabled: sender.isOn,
+                    snoozeEnabled: value.snoozeEnabled,
+                    repeatWeekdays: value.repeatWeekdays,
+                    mediaID: value.mediaID,
+                    mediaLabel: value.mediaLabel,
+                    label: value.label,
+                    onSnooze: value.onSnooze,
+                    soundName: value.soundName
+                ))
+            } else {
+                newAlarms.append(AlarmInfo(
+                    id: value.id,
+                    date: value.date,
+                    enabled: value.enabled,
+                    snoozeEnabled: value.snoozeEnabled,
+                    repeatWeekdays: value.repeatWeekdays,
+                    mediaID: value.mediaID,
+                    mediaLabel: value.mediaLabel,
+                    label: value.label,
+                    onSnooze: value.onSnooze,
+                    soundName: value.soundName
+                ))
             }
-            
-            // 以下、保存処理と、schedularのキャンセル処理を書く。
-            
-//            alarmScheduler.setNotificationWithDate(
-//                alarm.date,
-//                onWeekdaysForNotify: alarm.repeatWeekdays,
-//                snoozeEnabled: alarm.snoozeEnabled,
-//                onSnooze: false,
-//                soundName: alarm.mediaLabel,
-//                index: index
-//            )
-            tableView.reloadData()
-        } else {
-            print("switch off")
-            alarmScheduler.reSchedule()
-            tableView.reloadData()
+            indexforLoop += 1
         }
+            
+        // 全ての登録をキャンセルする。
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        // もう一度登録を行う。
+        for alarm in newAlarms {
+            Scheduler.setNotifWithDate(alarm: alarm)
+        }
+        // データベースに保存する。
+        AlarmUserDefaults.save(alarms: newAlarms)
+        
+        // tableViewを更新する。
+        alarms = newAlarms
+        tableView.reloadData()
+  
     }
 
     // Override to support editing the table view.
