@@ -31,6 +31,7 @@
 		9EEEC58C1BC641BF00459CF7 /* MainAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEEC58B1BC641BF00459CF7 /* MainAlarmViewController.swift */; };
 		F19EC351259A1D6600A7025D /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19EC350259A1D6600A7025D /* DateUtils.swift */; };
 		F19EC367259D64AC00A7025D /* foo.png in Resources */ = {isa = PBXBuildFile; fileRef = F19EC366259D64AC00A7025D /* foo.png */; };
+		F19EC36E259E14B200A7025D /* AlarmLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19EC36D259E14B200A7025D /* AlarmLogic.swift */; };
 		F1AB0CCD2598C47800CF4908 /* AlarmUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AB0CCC2598C47800CF4908 /* AlarmUserDefaults.swift */; };
 		F1AB0CD12599744200CF4908 /* AlarmInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AB0CD02599744200CF4908 /* AlarmInfo.swift */; };
 /* End PBXBuildFile section */
@@ -74,6 +75,7 @@
 		9EEEC58B1BC641BF00459CF7 /* MainAlarmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAlarmViewController.swift; sourceTree = "<group>"; };
 		F19EC350259A1D6600A7025D /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		F19EC366259D64AC00A7025D /* foo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = foo.png; sourceTree = "<group>"; };
+		F19EC36D259E14B200A7025D /* AlarmLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmLogic.swift; sourceTree = "<group>"; };
 		F1AB0CCC2598C47800CF4908 /* AlarmUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmUserDefaults.swift; sourceTree = "<group>"; };
 		F1AB0CD02599744200CF4908 /* AlarmInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,6 +180,7 @@
 		9EED786E1AA0F03F00961BC2 /* Alarm */ = {
 			isa = PBXGroup;
 			children = (
+				F19EC36C259E14A400A7025D /* Logic */,
 				F19EC365259D649300A7025D /* Image */,
 				F19EC34F259A1D5500A7025D /* Utils */,
 				F1AB0CCB2598C45700CF4908 /* DB */,
@@ -234,6 +237,14 @@
 				F19EC366259D64AC00A7025D /* foo.png */,
 			);
 			name = Image;
+			sourceTree = "<group>";
+		};
+		F19EC36C259E14A400A7025D /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				F19EC36D259E14B200A7025D /* AlarmLogic.swift */,
+			);
+			name = Logic;
 			sourceTree = "<group>";
 		};
 		F1AB0CCB2598C45700CF4908 /* DB */ = {
@@ -376,6 +387,7 @@
 				F1AB0CCD2598C47800CF4908 /* AlarmUserDefaults.swift in Sources */,
 				77A8570F1E41A04600971367 /* AlarmSchedulerDelegate.swift in Sources */,
 				77570F6B1E3EEA75005E2923 /* PropertyReflectable.swift in Sources */,
+				F19EC36E259E14B200A7025D /* AlarmLogic.swift in Sources */,
 				9E9BEE071BCF8FF8000CF364 /* WeekdaysViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -23,25 +23,31 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     @IBAction func saveEditAlarm(_ sender: AnyObject) {
-        let date = Scheduler.correctSecondComponent(date: datePicker.date)
-        
-        let alarm = AlarmInfo(
-            id: UUID().uuidString,
-            date: date,
-            enabled: true,
-            snoozeEnabled: segueInfo.snoozeEnabled,
-            repeatWeekdays: segueInfo.repeatWeekdays,
-            mediaID: segueInfo.mediaID,
-            mediaLabel: segueInfo.mediaLabel,
-            label: segueInfo.label,
-            onSnooze: false,
-            soundName: "bell"
-        )
-        
-        AlarmUserDefaults.addNewAlarm(alarmModel: alarm)
-        Scheduler.setNotifWithDate(alarm: alarm)
-        
-        self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
+        let isNewAlarm = segueInfo.alarmUuid == nil
+        if isNewAlarm {
+            let date = Scheduler.correctSecondComponent(date: datePicker.date)
+            
+            let alarm = AlarmInfo(
+                id: UUID().uuidString,
+                date: date,
+                enabled: true,
+                snoozeEnabled: segueInfo.snoozeEnabled,
+                repeatWeekdays: segueInfo.repeatWeekdays,
+                mediaID: segueInfo.mediaID,
+                mediaLabel: segueInfo.mediaLabel,
+                label: segueInfo.label,
+                onSnooze: false,
+                soundName: "bell"
+            )
+            
+            AlarmUserDefaults.addNewAlarm(alarmModel: alarm)
+            Scheduler.setNotifWithDate(alarm: alarm)
+            
+            self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
+        } else {
+            let alarms: [AlarmInfo] = AlarmUserDefaults.getAllAlarms()
+            let alarmId = segueInfo.alarmUuid
+        }
     }
     
  
@@ -49,8 +55,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         // Return the number of sections.
         if segueInfo.isEditMode {
             return 2
-        }
-        else {
+        } else {
             return 1
         }
     }
@@ -58,8 +63,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 4
-        }
-        else {
+        } else {
             return 1
         }
     }
@@ -68,11 +72,10 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell = tableView.dequeueReusableCell(withIdentifier: Id.settingIdentifier)
-        if(cell == nil) {
-        cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: Id.settingIdentifier)
+        if (cell == nil) {
+            cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: Id.settingIdentifier)
         }
         if indexPath.section == 0 {
-            
             if indexPath.row == 0 {
                 cell!.textLabel!.text = "Repeat"
                 cell!.detailTextLabel!.text = WeekdaysViewController.repeatText(weekdays: segueInfo.repeatWeekdays)
@@ -128,16 +131,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                 break
             }
         } else if indexPath.section == 1 { // alarmを削除する
-            AlarmUserDefaults.deleteAlarmById(id: segueInfo.alarmUuid)
-            
-            // 全ての登録をキャンセルする。
-            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-            let alarms = AlarmUserDefaults.getAllAlarms()
-            // 全てのプッシュ通知の登録を行う。
-            for alarm in alarms {
-                Scheduler.setNotifWithDate(alarm: alarm)
-            }
-            
+            AlarmLogic.deleteAlarmById(alarmId: segueInfo.alarmUuid)
             performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
         }
             
@@ -193,6 +187,4 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         segueInfo.mediaLabel = src.mediaLabel
         segueInfo.mediaID = src.mediaID
     }
-    
-    
 }
