@@ -20,5 +20,6 @@ struct AlarmInfo: Codable {
     let mediaLabel: String
     let label: String
     let onSnooze: Bool
+    let soundName: String
 //    var formattedTime: String // この項目がなぜ必要なのかが分からない。
 }

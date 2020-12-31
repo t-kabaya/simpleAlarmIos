@@ -195,7 +195,8 @@ class MainAlarmViewController: UITableViewController{
             mediaID: "",
             mediaLabel: "",
             label: "",
-            onSnooze: true
+            onSnooze: true,
+            soundName: "bell"
         )]
         var alarm = alarms[index]
         if alarm.repeatWeekdays.isEmpty {

@@ -36,7 +36,8 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             mediaID: segueInfo.mediaID,
             mediaLabel: segueInfo.mediaLabel,
             label: segueInfo.label,
-            onSnooze: false
+            onSnooze: false,
+            soundName: "bell"
         )
         
         AlarmUserDefaults.addNewAlarm(alarmModel: alarm)
