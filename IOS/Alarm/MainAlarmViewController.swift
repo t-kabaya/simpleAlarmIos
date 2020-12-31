@@ -15,21 +15,15 @@ class MainAlarmViewController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsSelectionDuringEditing = true
+        alarms = AlarmUserDefaults.getAllAlarms()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        print("kaba viewWillAppear")
-        
-        alarms = AlarmUserDefaults.getAllAlarms()
+
         tableView.reloadData()
         //dynamically append the edit button
-        if alarms.count != 0 {
-            self.navigationItem.leftBarButtonItem = editButtonItem
-        } else {
-            self.navigationItem.leftBarButtonItem = nil
-        }
+        self.navigationItem.leftBarButtonItem = alarms.count != 0 ? editButtonItem : nil
     }
     
     override func didReceiveMemoryWarning() {
@@ -49,18 +43,15 @@ class MainAlarmViewController: UITableViewController{
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        if alarms.count == 0 {
-            tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        }
-        else {
-            tableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
-        }
+        tableView.separatorStyle = alarms.count == 0
+            ? UITableViewCellSeparatorStyle.none
+            : UITableViewCellSeparatorStyle.singleLine
+
         return alarms.count
     }
     
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if isEditing {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // 編集ボタンを押した時の遷移
             performSegue(withIdentifier: Id.editSegueIdentifier,
                         sender: SegueInfo(curCellIndex: indexPath.row,
                         isEditMode: true,
@@ -71,7 +62,7 @@ class MainAlarmViewController: UITableViewController{
                         enabled: alarms[indexPath.row].enabled,
                         snoozeEnabled: alarms[indexPath.row].snoozeEnabled)
             )
-        }
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -190,7 +181,7 @@ class MainAlarmViewController: UITableViewController{
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) { // 新規アラーム作成を押した時の遷移の準備
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         let dist = segue.destination as! UINavigationController
@@ -198,15 +189,13 @@ class MainAlarmViewController: UITableViewController{
         if segue.identifier == Id.addSegueIdentifier {
             addEditController.navigationItem.title = "Add Alarm"
             addEditController.segueInfo = SegueInfo(curCellIndex: alarms.count, isEditMode: false, label: "Alarm", mediaLabel: "bell", mediaID: "", repeatWeekdays: [], enabled: false, snoozeEnabled: false)
-        }
-        else if segue.identifier == Id.editSegueIdentifier {
+        } else if segue.identifier == Id.editSegueIdentifier {
             addEditController.navigationItem.title = "Edit Alarm"
             addEditController.segueInfo = sender as! SegueInfo
         }
     }
     
     @IBAction func unwindFromAddEditAlarmView(_ segue: UIStoryboardSegue) {
-        isEditing = false
         // 編集を完了した時に、再度読み込み
         alarms = AlarmUserDefaults.getAllAlarms()
         tableView.reloadData()

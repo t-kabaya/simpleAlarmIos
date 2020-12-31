@@ -8,13 +8,11 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var tableView: UITableView!
     
     var alarmScheduler: AlarmSchedulerDelegate = Scheduler()
-    var alarmModel: Alarms = Alarms()
     var segueInfo: SegueInfo!
     var snoozeEnabled: Bool = false
     var enabled: Bool!
     
     override func viewWillAppear(_ animated: Bool) {
-        alarmModel = Alarms()
         tableView.reloadData()
         snoozeEnabled = segueInfo.snoozeEnabled
         super.viewWillAppear(animated)
@@ -129,9 +127,10 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             default:
                 break
             }
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 1 { // alarmを削除する
             //delete alarm
-            alarmModel.alarms.remove(at: segueInfo.curCellIndex)
+            let row = indexPath.row
+            
             performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
         }
             
