@@ -185,10 +185,10 @@ class MainAlarmViewController: UITableViewController{
         let dist = segue.destination as! UINavigationController
         let addEditController = dist.topViewController as! AlarmAddEditViewController
         if segue.identifier == Id.addSegueIdentifier {
-            addEditController.navigationItem.title = "Add Alarm"
-            addEditController.segueInfo = SegueInfo(curCellIndex: alarms.count, isEditMode: false, label: "Alarm", mediaLabel: "bell", mediaID: "", repeatWeekdays: [], enabled: false, snoozeEnabled: false, alarmUuid: nil, alarm: nil)
+            addEditController.navigationItem.title = "追加"
+            addEditController.segueInfo = SegueInfo(curCellIndex: alarms.count, isEditMode: false, label: "アラーム", mediaLabel: "ベル", mediaID: "", repeatWeekdays: [], enabled: false, snoozeEnabled: false, alarmUuid: nil, alarm: nil)
         } else if segue.identifier == Id.editSegueIdentifier {
-            addEditController.navigationItem.title = "Edit Alarm"
+            addEditController.navigationItem.title = "編集"
             addEditController.segueInfo = sender as! SegueInfo
         }
     }
@@ -212,7 +212,7 @@ class MainAlarmViewController: UITableViewController{
             mediaLabel: "",
             label: "",
             onSnooze: true,
-            soundName: "bell"
+            soundName: "ベル"
         )]
         var alarm = alarms[index]
         if alarm.repeatWeekdays.isEmpty {

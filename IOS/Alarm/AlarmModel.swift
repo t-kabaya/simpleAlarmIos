@@ -17,8 +17,8 @@ struct Alarm: PropertyReflectable {
     var repeatWeekdays: [Int] = []
     var uuid: String = ""
     var mediaID: String = ""
-    var mediaLabel: String = "bell"
-    var label: String = "Alarm"
+    var mediaLabel: String = "ベル"
+    var label: String = "アラーム"
     var onSnooze: Bool = false
     
     init(){}

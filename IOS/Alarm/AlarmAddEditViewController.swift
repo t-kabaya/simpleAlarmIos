@@ -116,11 +116,11 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
 //                cell!.detailTextLabel!.text = WeekdaysViewController.repeatText(weekdays: segueInfo.repeatWeekdays)
 //                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             if indexPath.row == 0 {
-                cell!.textLabel!.text = "Label"
+                cell!.textLabel!.text = "ラベル"
                 cell!.detailTextLabel!.text = segueInfo.label
                 cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             } else if indexPath.row == 1 {
-                cell!.textLabel!.text = "Sound"
+                cell!.textLabel!.text = "アラーム音"
                 cell!.detailTextLabel!.text = segueInfo.mediaLabel
                 cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
@@ -138,7 +138,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         } else if indexPath.section == 1 {
             cell = UITableViewCell(
                 style: UITableViewCellStyle.default, reuseIdentifier: Id.settingIdentifier)
-            cell!.textLabel!.text = "Delete Alarm"
+            cell!.textLabel!.text = "アラームを削除"
             cell!.textLabel!.textAlignment = .center
             cell!.textLabel!.textColor = UIColor.red
         }

@@ -66,10 +66,10 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
         }
 
         if indexPath.row == 0 {
-            cell!.textLabel!.text = "bell"
+            cell!.textLabel!.text = "ベル"
         }
         else if indexPath.row == 1 {
-            cell!.textLabel!.text = "tickle"
+            cell!.textLabel!.text = "音１"
         }
         
         if cell!.textLabel!.text == mediaLabel {
