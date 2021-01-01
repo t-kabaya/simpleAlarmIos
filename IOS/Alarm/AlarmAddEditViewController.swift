@@ -49,7 +49,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             var indexforLoop = 0
             for value in alarms {
                 if value.id == segueInfo.alarm?.id {
-                    let mediaLaebl = segueInfo.mediaLabel
                     newAlarms.append(AlarmInfo(
                         id: value.id,
                         date: value.date,
