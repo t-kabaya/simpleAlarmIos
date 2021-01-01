@@ -43,7 +43,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             AlarmUserDefaults.addNewAlarm(alarmModel: alarm)
             Scheduler.setNotifWithDate(alarm: alarm)
             
-            self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
         } else {
             let alarms: [AlarmInfo] = AlarmUserDefaults.getAllAlarms()
             var newAlarms: [AlarmInfo] = []
@@ -83,6 +82,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             AlarmUserDefaults.saveAllAlarms(alarms: newAlarms)
             AlarmLogic.refrectChange()
         }
+        self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
     }
     
  

@@ -28,8 +28,7 @@ class WeekdaysViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
-        for weekday in weekdays
-        {
+        for weekday in weekdays {
             if weekday == (indexPath.row + 1) {
                 cell.accessoryType = UITableViewCellAccessoryType.checkmark
             }
@@ -46,14 +45,12 @@ class WeekdaysViewController: UITableViewController {
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)
             cell.accessoryType = UITableViewCellAccessoryType.none
-        }
-        else{
+        } else {
             //row index start from 0, weekdays index start from 1 (Sunday), so plus 1
             weekdays.append(indexPath.row + 1)
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)
             cell.accessoryType = UITableViewCellAccessoryType.checkmark
-            
         }
     }
 }
