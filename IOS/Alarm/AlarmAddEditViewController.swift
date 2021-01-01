@@ -24,9 +24,8 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func saveEditAlarm(_ sender: AnyObject) {
         let isNewAlarm = segueInfo.alarm == nil
+        let date = Scheduler.correctSecondComponent(date: datePicker.date)
         if isNewAlarm {
-            let date = Scheduler.correctSecondComponent(date: datePicker.date)
-            
             let alarm = AlarmInfo(
                 id: UUID().uuidString,
                 date: date,
@@ -51,7 +50,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                 if value.id == segueInfo.alarm?.id {
                     newAlarms.append(AlarmInfo(
                         id: value.id,
-                        date: value.date,
+                        date: date,
                         enabled: value.enabled,
                         snoozeEnabled: value.snoozeEnabled,
                         repeatWeekdays: value.repeatWeekdays,
