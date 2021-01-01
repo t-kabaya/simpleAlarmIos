@@ -42,7 +42,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             
             AlarmUserDefaults.addNewAlarm(alarmModel: alarm)
             Scheduler.setNotifWithDate(alarm: alarm)
-            
         } else {
             let alarms: [AlarmInfo] = AlarmUserDefaults.getAllAlarms()
             var newAlarms: [AlarmInfo] = []
@@ -97,7 +96,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 4
+            return 2
         } else {
             return 1
         }
@@ -111,29 +110,30 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: Id.settingIdentifier)
         }
         if indexPath.section == 0 {
+//            if indexPath.row == 0 {
+//                cell!.textLabel!.text = "Repeat"
+//                cell!.detailTextLabel!.text = WeekdaysViewController.repeatText(weekdays: segueInfo.repeatWeekdays)
+//                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             if indexPath.row == 0 {
-                cell!.textLabel!.text = "Repeat"
-                cell!.detailTextLabel!.text = WeekdaysViewController.repeatText(weekdays: segueInfo.repeatWeekdays)
-                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-            } else if indexPath.row == 1 {
                 cell!.textLabel!.text = "Label"
                 cell!.detailTextLabel!.text = segueInfo.label
                 cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-            } else if indexPath.row == 2 {
+            } else if indexPath.row == 1 {
                 cell!.textLabel!.text = "Sound"
                 cell!.detailTextLabel!.text = segueInfo.mediaLabel
                 cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-            } else if indexPath.row == 3 {
-                cell!.textLabel!.text = "Snooze"
-                let sw = UISwitch(frame: CGRect())
-                sw.addTarget(self, action: #selector(AlarmAddEditViewController.snoozeSwitchTapped(_:)), for: UIControlEvents.touchUpInside)
-                
-                if snoozeEnabled {
-                   sw.setOn(true, animated: false)
-                }
-                
-                cell!.accessoryView = sw
             }
+//            } else if indexPath.row == 3 {
+//                cell!.textLabel!.text = "Snooze"
+//                let sw = UISwitch(frame: CGRect())
+//                sw.addTarget(self, action: #selector(AlarmAddEditViewController.snoozeSwitchTapped(_:)), for: UIControlEvents.touchUpInside)
+//
+//                if snoozeEnabled {
+//                   sw.setOn(true, animated: false)
+//                }
+//
+//                cell!.accessoryView = sw
+//            }
         } else if indexPath.section == 1 {
             cell = UITableViewCell(
                 style: UITableViewCellStyle.default, reuseIdentifier: Id.settingIdentifier)
@@ -150,15 +150,15 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         let cell = tableView.cellForRow(at: indexPath)
         if indexPath.section == 0 {
             switch indexPath.row {
+//            case 0:
+//                performSegue(withIdentifier: Id.weekdaysSegueIdentifier, sender: self)
+//                cell?.setSelected(true, animated: false)
+//                cell?.setSelected(false, animated: false)
             case 0:
-                performSegue(withIdentifier: Id.weekdaysSegueIdentifier, sender: self)
-                cell?.setSelected(true, animated: false)
-                cell?.setSelected(false, animated: false)
-            case 1:
                 performSegue(withIdentifier: Id.labelSegueIdentifier, sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
-            case 2:
+            case 1:
                 performSegue(withIdentifier: Id.soundSegueIdentifier, sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
