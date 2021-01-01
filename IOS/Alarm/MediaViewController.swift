@@ -69,7 +69,7 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
             cell!.textLabel!.text = "ベル"
         }
         else if indexPath.row == 1 {
-            cell!.textLabel!.text = "音１"
+            cell!.textLabel!.text = "音１" // １も全角
         }
         
         if cell!.textLabel!.text == mediaLabel {
