@@ -21,7 +21,7 @@ class LabelEditViewController: UIViewController, UITextFieldDelegate {
         
         labelTextField.text = label
         
-        //defined in UITextInputTraits protocol
+        // defined in UITextInputTraits protocol
         labelTextField.returnKeyType = UIReturnKeyType.done
         labelTextField.enablesReturnKeyAutomatically = true
     }
@@ -34,8 +34,8 @@ class LabelEditViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         label = textField.text!
         performSegue(withIdentifier: Id.labelUnwindIdentifier, sender: self)
-        //This method can be used when no state passing is needed
-        //navigationController?.popViewController(animated: true)
+        // This method can be used when no state passing is needed
+        // navigationController?.popViewController(animated: true)
         return false
     }
 

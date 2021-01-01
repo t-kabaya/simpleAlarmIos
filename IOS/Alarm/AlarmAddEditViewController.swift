@@ -2,7 +2,7 @@ import UIKit
 import Foundation
 import MediaPlayer
 
-class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var tableView: UITableView!
@@ -49,6 +49,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             var indexforLoop = 0
             for value in alarms {
                 if value.id == segueInfo.alarm?.id {
+                    let mediaLaebl = segueInfo.mediaLabel
                     newAlarms.append(AlarmInfo(
                         id: value.id,
                         date: value.date,
@@ -56,10 +57,10 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                         snoozeEnabled: value.snoozeEnabled,
                         repeatWeekdays: value.repeatWeekdays,
                         mediaID: value.mediaID,
-                        mediaLabel: value.mediaLabel,
-                        label: value.label,
+                        mediaLabel: segueInfo.mediaLabel,
+                        label: segueInfo.label,
                         onSnooze: value.onSnooze,
-                        soundName: value.soundName
+                        soundName: segueInfo.mediaLabel // bellとticleのみのため、soundNameにmedialabelを代入している。音楽を選択するようになるとバグるので注意
                     ))
                 } else {
                     newAlarms.append(AlarmInfo(
