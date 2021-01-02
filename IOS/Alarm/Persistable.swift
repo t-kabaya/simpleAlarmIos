@@ -8,9 +8,9 @@
 
 import Foundation
 
-protocol Persistable{
+protocol Persistable {
     var ud: UserDefaults {get}
-    var persistKey : String {get}
+    var persistKey: String {get}
     func persist()
     func unpersist()
 }

@@ -6,11 +6,11 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var tableView: UITableView!
-    
+
     var segueInfo: SegueInfo!
     var snoozeEnabled: Bool = false
     var enabled: Bool!
-    
+
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
         snoozeEnabled = segueInfo.snoozeEnabled
@@ -20,7 +20,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
     @IBAction func saveEditAlarm(_ sender: AnyObject) {
         let isNewAlarm = segueInfo.alarm == nil
         let date = Scheduler.correctSecondComponent(date: datePicker.date)
@@ -37,7 +37,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                 onSnooze: false,
                 soundName: "ベル"
             )
-            
+
             AlarmUserDefaults.addNewAlarm(alarmModel: alarm)
             Scheduler.setNotifWithDate(alarm: alarm)
         } else {
@@ -75,14 +75,13 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                 }
                 indexforLoop += 1
             }
-            
+
             AlarmUserDefaults.saveAllAlarms(alarms: newAlarms)
             AlarmLogic.refrectChange()
         }
         self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
     }
-    
- 
+
     func numberOfSections(in tableView: UITableView) -> Int {
         // Return the number of sections.
         if segueInfo.isEditMode {
@@ -91,7 +90,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             return 1
         }
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 2
@@ -100,11 +99,10 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
 
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         var cell = tableView.dequeueReusableCell(withIdentifier: Id.settingIdentifier)
-        if (cell == nil) {
+        if cell == nil {
             cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: Id.settingIdentifier)
         }
         if indexPath.section == 0 {
@@ -139,11 +137,10 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             cell!.textLabel!.textAlignment = .center
             cell!.textLabel!.textColor = UIColor.red
         }
-        
+
         return cell!
     }
-    
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         if indexPath.section == 0 {
@@ -167,14 +164,13 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             AlarmLogic.deleteAlarmById(alarmId: segueInfo.alarmUuid)
             performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
         }
-            
+
     }
-   
+
     @IBAction func snoozeSwitchTapped (_ sender: UISwitch) {
         snoozeEnabled = sender.isOn
     }
-    
-    
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -191,7 +187,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                 }
             }
         } else if segue.identifier == Id.soundSegueIdentifier {
-            //TODO
+            // TODO
             let dist = segue.destination as! MediaViewController
             dist.mediaID = segueInfo.mediaID
             dist.mediaLabel = segueInfo.mediaLabel
@@ -203,17 +199,17 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             dist.weekdays = segueInfo.repeatWeekdays
         }
     }
-    
+
     @IBAction func unwindFromLabelEditView(_ segue: UIStoryboardSegue) {
         let src = segue.source as! LabelEditViewController
         segueInfo.label = src.label
     }
-    
+
     @IBAction func unwindFromWeekdaysView(_ segue: UIStoryboardSegue) {
         let src = segue.source as! WeekdaysViewController
         segueInfo.repeatWeekdays = src.weekdays
     }
-    
+
     @IBAction func unwindFromMediaView(_ segue: UIStoryboardSegue) {
         let src = segue.source as! MediaViewController
         segueInfo.mediaLabel = src.mediaLabel

@@ -8,26 +8,26 @@
 
 import UIKit
 
-class MainAlarmViewController: UITableViewController{
+class MainAlarmViewController: UITableViewController {
     var alarms: [AlarmInfo] = []
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsSelectionDuringEditing = true
         alarms = AlarmUserDefaults.getAllAlarms()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
     // MARK: - Table view data source
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
@@ -45,8 +45,7 @@ class MainAlarmViewController: UITableViewController{
 
         return alarms.count
     }
-    
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // 編集ボタンを押した時の遷移
         performSegue(withIdentifier: Id.editSegueIdentifier,
                     sender: SegueInfo(curCellIndex: indexPath.row,
@@ -61,28 +60,28 @@ class MainAlarmViewController: UITableViewController{
                     alarm: alarms[indexPath.row])
         )
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: Id.alarmCellIdentifier)
-        if (cell == nil) {
+        if cell == nil {
             cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: Id.alarmCellIdentifier)
         }
         // cell text
         cell!.selectionStyle = .none
         cell!.tag = indexPath.row
-        
+
         let alarm: AlarmInfo = alarms[indexPath.row]
-        let amAttr: [NSAttributedStringKey : Any] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue) : UIFont.systemFont(ofSize: 20.0)]
+        let amAttr: [NSAttributedStringKey: Any] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont.systemFont(ofSize: 20.0)]
         let str = NSMutableAttributedString(string: DateUtils.foramtDateToString(date: alarm.date), attributes: amAttr)
-        let timeAttr: [NSAttributedStringKey : Any] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue) : UIFont.systemFont(ofSize: 45.0)]
-        str.addAttributes(timeAttr, range: NSMakeRange(0, str.length-2))
+        let timeAttr: [NSAttributedStringKey: Any] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont.systemFont(ofSize: 45.0)]
+        str.addAttributes(timeAttr, range: NSRange(location: 0, length: str.length-2))
         cell!.textLabel?.attributedText = str
         cell!.detailTextLabel?.text = alarm.label
-        
+
         // append switch button
         let sw = UISwitch(frame: CGRect())
-        sw.transform = CGAffineTransform(scaleX: 0.9, y: 0.9);
-        
+        sw.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+
         // tag is used to indicate which row had been touched
         sw.tag = indexPath.row
         sw.addTarget(self, action: #selector(MainAlarmViewController.switchTapped(_:)), for: UIControlEvents.valueChanged)
@@ -97,12 +96,12 @@ class MainAlarmViewController: UITableViewController{
             cell!.detailTextLabel?.alpha = 0.5
         }
         cell!.accessoryView = sw
-        
+
         // delete empty seperator line
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         return cell!
     }
-    
+
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -111,7 +110,7 @@ class MainAlarmViewController: UITableViewController{
             let cells = tableView.visibleCells
             for cell in cells {
                 let sw = cell.accessoryView as! UISwitch
-                //adjust saved index when row deleted
+                // adjust saved index when row deleted
                 if sw.tag > index {
                     sw.tag -= 1
                 }
@@ -119,12 +118,12 @@ class MainAlarmViewController: UITableViewController{
             if alarms.count == 0 {
                 self.navigationItem.leftBarButtonItem = nil
             }
-            
+
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-    
+
     @IBAction func switchTapped(_ sender: UISwitch) {
         let index = sender.tag
         var newAlarms: [AlarmInfo] = []
@@ -160,7 +159,7 @@ class MainAlarmViewController: UITableViewController{
             }
             indexforLoop += 1
         }
-            
+
         // 全ての登録をキャンセルする。
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         // もう一度登録を行う。
@@ -169,13 +168,13 @@ class MainAlarmViewController: UITableViewController{
         }
         // データベースに保存する。
         AlarmUserDefaults.saveAllAlarms(alarms: newAlarms)
-        
+
         // tableViewを更新する。
         alarms = newAlarms
         tableView.reloadData()
-  
+
     }
-    
+
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) { // 新規アラーム作成を押した時の遷移の準備
         // Get the new view controller using segue.destinationViewController.
@@ -190,16 +189,16 @@ class MainAlarmViewController: UITableViewController{
             addEditController.segueInfo = sender as! SegueInfo
         }
     }
-    
+
     @IBAction func unwindFromAddEditAlarmView(_ segue: UIStoryboardSegue) {
         // 編集を完了した時に、再度読み込み
         alarms = AlarmUserDefaults.getAllAlarms()
         tableView.reloadData()
     }
-    
+
     public func changeSwitchButtonState(index: Int) {
-        //let info = notification.userInfo as! [String: AnyObject]
-        //let index: Int = info["index"] as! Int
+        // let info = notification.userInfo as! [String: AnyObject]
+        // let index: Int = info["index"] as! Int
         alarms = [AlarmInfo(
             id: "",
             date: Date(),

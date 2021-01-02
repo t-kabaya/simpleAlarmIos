@@ -10,12 +10,11 @@ import Foundation
 import UIKit
 
 protocol AlarmSchedulerDelegate {
-    static func setNotifWithDate(alarm: AlarmInfo) -> Void
+    static func setNotifWithDate(alarm: AlarmInfo)
 //    func setNotificationWithDate(_ date: Date, onWeekdaysForNotify:[Int], snoozeEnabled: Bool, onSnooze:Bool, soundName: String, index: Int)
-    //helper
+    // helper
 //    func setNotificationForSnooze(snoozeMinute: Int, soundName: String, index: Int)
     func setupNotificationSettings() -> UIUserNotificationSettings
     func reSchedule()
     func checkNotification()
 }
-

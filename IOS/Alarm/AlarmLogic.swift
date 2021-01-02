@@ -14,7 +14,7 @@ class AlarmLogic {
         AlarmUserDefaults.deleteAlarmById(id: alarmId)
         refrectChange()
     }
-    
+
     public static func refrectChange() {
         // userDefaultsへの変更を、ローカル通知に反映する。
         // 全ての登録をキャンセルする。

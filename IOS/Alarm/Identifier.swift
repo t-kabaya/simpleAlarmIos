@@ -20,7 +20,7 @@ struct Id {
     static let settingIdentifier = "setting"
     static let musicIdentifier = "musicIdentifier"
     static let alarmCellIdentifier = "alarmCell"
-    
+
     static let labelUnwindIdentifier = "labelUnwindSegue"
     static let soundUnwindIdentifier = "soundUnwindSegue"
     static let weekdaysUnwindIdentifier = "weekdaysUnwindSegue"
