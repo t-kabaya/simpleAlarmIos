@@ -7,7 +7,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var tableView: UITableView!
     
-    var alarmScheduler: AlarmSchedulerDelegate = Scheduler()
     var segueInfo: SegueInfo!
     var snoozeEnabled: Bool = false
     var enabled: Bool!
@@ -191,7 +190,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                     sw.tag -= 1
                 }
             }
-            alarmScheduler.reSchedule()
         } else if segue.identifier == Id.soundSegueIdentifier {
             //TODO
             let dist = segue.destination as! MediaViewController

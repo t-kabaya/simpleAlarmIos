@@ -59,7 +59,7 @@ extension Alarm {
 }
 
 //This can be considered as a viewModel
-class Alarms: Persistable {
+class Alarms {
     let ud: UserDefaults = UserDefaults.standard
     let persistKey: String = "myAlarmKey"
     var alarms: [Alarm] = [] {

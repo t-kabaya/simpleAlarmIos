@@ -9,7 +9,6 @@
 import UIKit
 
 class MainAlarmViewController: UITableViewController{
-    var alarmScheduler: AlarmSchedulerDelegate = Scheduler()
     var alarms: [AlarmInfo] = []
     
     override func viewDidLoad() {
@@ -123,7 +122,6 @@ class MainAlarmViewController: UITableViewController{
             
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
-            alarmScheduler.reSchedule()
         }
     }
     

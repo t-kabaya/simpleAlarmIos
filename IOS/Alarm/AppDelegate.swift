@@ -16,8 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
 
     var window: UIWindow?
     var audioPlayer: AVAudioPlayer?
-    let alarmScheduler: AlarmSchedulerDelegate = Scheduler()
-    var alarmModel: Alarms = Alarms()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         requestNotificationAuthorization()
@@ -62,19 +60,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         }
         
         playSound(soundName)
-        //schedule notification for snooze
-//        if isSnooze {
-//            let snoozeOption = UIAlertAction(title: "Snooze", style: .default) {
-//                (action:UIAlertAction)->Void in self.audioPlayer?.stop()
-//                self.alarmScheduler.setNotificationForSnooze(snoozeMinute: 9, soundName: soundName, index: index)
-//            }
-//            storageController.addAction(snoozeOption)
-//        }
+
         let stopOption = UIAlertAction(title: "OK", style: .default) {
             (action:UIAlertAction)->Void in self.audioPlayer?.stop()
             AudioServicesRemoveSystemSoundCompletion(kSystemSoundID_Vibrate)
-            self.alarmModel = Alarms()
-            self.alarmModel.alarms[index].onSnooze = false
             //change UI
             var mainVC = self.window?.visibleViewController as? MainAlarmViewController
             if mainVC == nil {
@@ -96,12 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             soundName = userInfo["soundName"] as! String
             index = userInfo["index"] as! Int
         }
-        self.alarmModel = Alarms()
-        self.alarmModel.alarms[index].onSnooze = false
-//        if identifier == Id.snoozeIdentifier {
-//            alarmScheduler.setNotificationForSnooze(snoozeMinute: 9, soundName: soundName, index: index)
-//            self.alarmModel.alarms[index].onSnooze = true
-//        }
+
         completionHandler()
     }
     
@@ -160,7 +144,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-//        audioPlayer?.pause()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -174,8 +157,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-//        audioPlayer?.play()
-        alarmScheduler.checkNotification()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
