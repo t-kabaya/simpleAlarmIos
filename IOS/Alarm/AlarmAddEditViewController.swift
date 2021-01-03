@@ -11,6 +11,10 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     var snoozeEnabled: Bool = false
     var enabled: Bool!
 
+    override func viewDidLoad() {
+        requestNotificationAuthorization()
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
         snoozeEnabled = segueInfo.snoozeEnabled
@@ -214,5 +218,16 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         let src = segue.source as! MediaViewController
         segueInfo.mediaLabel = src.mediaLabel
         segueInfo.mediaID = src.mediaID
+    }
+}
+
+func requestNotificationAuthorization() {
+    let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+    UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
+      if let error = error {
+        print("Error: \(error.localizedDescription)")
+      } else if granted {
+      } else {
+      }
     }
 }
